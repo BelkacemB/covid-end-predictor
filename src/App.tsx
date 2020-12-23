@@ -6,12 +6,12 @@ import "./App.css";
 
 function App() {
   const [daysPeriod, setDaysPeriod] = useState(10);
-  const [threshold, setThreshold] = useState(70);
-  const [daysToGo, setDaysToGo] = useState(0);
+  const [threshold, setThreshold] = useState(0.7);
+  const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
     let vaccinationRate: number = getNumberOfVaccinationsPerDay(daysPeriod);
-    setDaysToGo(getEndDate(vaccinationRate, threshold));
+    setEndDate(getEndDate(vaccinationRate, threshold));
   }, [daysPeriod, threshold]);
 
   const handleDaysChange = (event: any) => {
@@ -50,7 +50,7 @@ function App() {
         </Select>
         &nbsp; of the world population will be vaccinated in:
       </p>
-      <h1>{daysToGo} days</h1>
+      <h1>{endDate.toLocaleDateString("fr-FR")}</h1>
     </div>
   );
 }
