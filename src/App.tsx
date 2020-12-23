@@ -7,10 +7,10 @@ import "./App.css";
 function App() {
   const [daysPeriod, setDaysPeriod] = useState(10);
   const [threshold, setThreshold] = useState(70);
-  const [daysToGo, setDaysToGo] = useState(0)
+  const [daysToGo, setDaysToGo] = useState(0);
 
   useEffect(() => {
-    let vaccinationRate : number = getNumberOfVaccinationsPerDay(daysPeriod)
+    let vaccinationRate: number = getNumberOfVaccinationsPerDay(daysPeriod);
     setDaysToGo(getEndDate(vaccinationRate, threshold));
   }, [daysPeriod, threshold]);
 
