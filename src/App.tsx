@@ -4,6 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {
   getEndDate,
   getNumberOfVaccinationsPerDayPerRegion,
+  getAvailableCountries,
 } from "./model/Model";
 import "./App.css";
 
@@ -14,6 +15,9 @@ function App() {
   const [vaccinationRegion, setVaccinationRegion] = useState("World");
   const [targetRegion, setTargetRegion] = useState("World");
   const [vaccinationData, setVaccinationData] = useState([]);
+  const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
+    []
+  );
 
   useEffect(() => {
     fetch("https://covid-express.herokuapp.com/api/vaccinations")
@@ -53,6 +57,19 @@ function App() {
     setVaccinationRegion(event.target.value);
   };
 
+  useEffect(() => {
+    let countryMenuItems: JSX.Element[] = getAvailableCountries(
+      vaccinationData
+    ).map((country) => {
+      return (
+        <MenuItem value={country} id={country}>
+          {country}
+        </MenuItem>
+      );
+    });
+    setCountryMenuItems(countryMenuItems);
+  }, [vaccinationData]);
+
   return (
     <div className="App">
       <h2>End of Covid-19 predictor</h2>
@@ -74,9 +91,7 @@ function App() {
         value={vaccinationRegion}
         onChange={handleVaccinationRegionChange}
       >
-        <MenuItem value={"World"}>world</MenuItem>
-        <MenuItem value={"United Kingdom"}>UK</MenuItem>
-        <MenuItem value={"United States"}>USA</MenuItem>
+        {countryMenuItems}
       </Select>
       , &nbsp; <br />
       <Select
@@ -96,9 +111,7 @@ function App() {
         value={targetRegion}
         onChange={handleTargetRegionChange}
       >
-        <MenuItem value={"World"}>world</MenuItem>
-        <MenuItem value={"United Kingdom"}>UK</MenuItem>
-        <MenuItem value={"United States"}>USA</MenuItem>
+        {countryMenuItems}
       </Select>
       population will be vaccinated in:
       <h1>{endDate.toLocaleDateString("fr-FR")}</h1>
