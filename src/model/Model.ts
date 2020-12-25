@@ -19,9 +19,8 @@ export function getEndDate(
 ): Date {
   let result = new Date();
   let remainingSusceptiblePopulation =
-    (getRegionPopulation(region) ??
-      world_population - getVaccinatedPopulationByRegion(region, data)) *
-    threshold;
+    threshold * (getRegionPopulation(region) ?? world_population) -
+    getVaccinatedPopulationByRegion(region, data);
   let daysToVaccinate = Math.round(remainingSusceptiblePopulation / speed);
   result.setDate(result.getDate() + daysToVaccinate);
   return result;
