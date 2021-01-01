@@ -39,7 +39,6 @@ export function getNumberOfVaccinationsPerDayPerRegion(
   vaccinationData: any[]
 ): number {
   let regionData = vaccinationData.filter((v) => v.location === region);
-  let interval_size = Math.min(daysPeriod, regionData.length - 1);
   regionData.sort(compare);
   regionData = regionData.slice(0, daysPeriod);
   let totalDailyVaccinations =
