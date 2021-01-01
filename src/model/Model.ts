@@ -46,7 +46,7 @@ export function getNumberOfVaccinationsPerDayPerRegion(
       ? regionData.map((day) => day.daily_vaccinations).reduce(sumReducer)
       : 10000;
   let vaccPerDay =
-    interval_size == 0
+    interval_size === 0
       ? totalDailyVaccinations
       : totalDailyVaccinations / daysPeriod;
   return vaccPerDay;
