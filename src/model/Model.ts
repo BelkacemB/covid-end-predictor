@@ -18,15 +18,28 @@ export function getEndDate(
   data: any[]
 ): Date {
   let result = new Date();
-  let remainingSusceptiblePopulation =
-    threshold * (getRegionPopulation(region) ?? world_population) -
-    getVaccinatedPopulationByRegion(region, data);
+  let remainingSusceptiblePopulation = getRemainingToBeVaccinatedPopulation(
+    threshold,
+    region,
+    data
+  );
   let daysToVaccinate = Math.round(remainingSusceptiblePopulation / speed);
   result.setDate(result.getDate() + daysToVaccinate);
   return result;
 }
 
-function getRegionPopulation(region: string) {
+export function getRemainingToBeVaccinatedPopulation(
+  threshold: number,
+  region: string,
+  data: any[]
+) {
+  return (
+    threshold * (getRegionPopulation(region) ?? world_population) -
+    getVaccinatedPopulationByRegion(region, data)
+  );
+}
+
+export function getRegionPopulation(region: string) {
   if (region === "World") return world_population;
   else
     return populations.find((element) => element.country === region)
@@ -49,7 +62,7 @@ export function getNumberOfVaccinationsPerDayPerRegion(
   return vaccPerDay;
 }
 
-function getVaccinatedPopulationByRegion(
+export function getVaccinatedPopulationByRegion(
   region: string,
   vaccinationData: any[]
 ) {

@@ -4,6 +4,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {
   getEndDate,
   getNumberOfVaccinationsPerDayPerRegion,
+  getRegionPopulation,
+  getRemainingToBeVaccinatedPopulation,
+  getVaccinatedPopulationByRegion,
   getAvailableCountries,
 } from "./model/Model";
 import "./App.css";
@@ -29,13 +32,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let vaccinationRate: number = getNumberOfVaccinationsPerDayPerRegion(
+    let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
       daysPeriod,
       vaccinationRegion,
       vaccinationData
     );
     setEndDate(
-      getEndDate(vaccinationRate, threshold, targetRegion, vaccinationData)
+      getEndDate(dailyVaccPerRegion, threshold, targetRegion, vaccinationData)
     );
   }, [vaccinationData, threshold, daysPeriod, vaccinationRegion, targetRegion]);
 
@@ -72,7 +75,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>End of Covid-19 predictor</h2>
+      <h1>End of Covid-19 predictor</h1>
       Based on the speed of vaccination in the last &nbsp;
       <Select
         labelId="daysPeriodLabel"
@@ -115,6 +118,41 @@ function App() {
       </Select>
       population will be vaccinated in:
       <h1>{endDate.toLocaleDateString("fr-FR")}</h1>
+      <p>
+        Daily vaccinations:{" "}
+        <span className="number">
+          {Math.round(
+            getNumberOfVaccinationsPerDayPerRegion(
+              daysPeriod,
+              vaccinationRegion,
+              vaccinationData
+            )
+          )}
+        </span>
+        /day
+      </p>
+      <p>
+        Total vaccinations to this day:{" "}
+        <span className="number">
+          {getVaccinatedPopulationByRegion(targetRegion, vaccinationData)}
+        </span>
+      </p>
+      <p>
+        Remaining population to be vaccinated:{" "}
+        <span className="number">
+          {Math.round(
+            getRemainingToBeVaccinatedPopulation(
+              threshold,
+              targetRegion,
+              vaccinationData
+            )
+          )}
+        </span>
+      </p>
+      <p>
+        Total population:{" "}
+        <span className="number">{getRegionPopulation(targetRegion)}</span>
+      </p>
     </div>
   );
 }
