@@ -15,8 +15,8 @@ function Predictor(props: any) {
   const [daysPeriod, setDaysPeriod] = useState(1);
   const [threshold, setThreshold] = useState(0.7);
   const [endDate, setEndDate] = useState(new Date());
-  const [vaccinationRegion, setVaccinationRegion] = useState("World");
-  const [targetRegion, setTargetRegion] = useState("World");
+  const [vaccinationRegion, setVaccinationRegion] = useState("United States");
+  const [targetRegion, setTargetRegion] = useState("United States");
   const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
     []
   );

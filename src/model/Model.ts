@@ -40,10 +40,7 @@ export function getRemainingToBeVaccinatedPopulation(
 }
 
 export function getRegionPopulation(region: string) {
-  if (region === "World") return world_population;
-  else
-    return populations.find((element) => element.country === region)
-      ?.population;
+  return populations.find((element) => element.country === region)?.population;
 }
 
 export function getNumberOfVaccinationsPerDayPerRegion(
