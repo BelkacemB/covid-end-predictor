@@ -38,7 +38,7 @@ function Ranking(props: any) {
       <table>
         <tr>
           <th>Country</th>
-          <th>Project herd immunity date</th>
+          <th>Projected vaccine-induced herd immunity</th>
         </tr>
         {countryRows}
       </table>
