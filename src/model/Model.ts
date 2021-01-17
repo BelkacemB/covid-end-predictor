@@ -76,6 +76,5 @@ export function getAvailableCountries(vaccinationData: any[]): string[] {
   let result = populationCountries.filter((country) =>
     vaccinatedCountries.includes(country)
   );
-  result.push("World");
   return result;
 }
