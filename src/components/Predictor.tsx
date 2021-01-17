@@ -10,36 +10,25 @@ import {
   getAvailableCountries,
 } from "../model/Model";
 
-function Predictor() {
+function Predictor(props: any) {
+  var { data } = props;
   const [daysPeriod, setDaysPeriod] = useState(1);
   const [threshold, setThreshold] = useState(0.7);
   const [endDate, setEndDate] = useState(new Date());
   const [vaccinationRegion, setVaccinationRegion] = useState("World");
   const [targetRegion, setTargetRegion] = useState("World");
-  const [vaccinationData, setVaccinationData] = useState([]);
   const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
     []
   );
 
   useEffect(() => {
-    fetch("https://covid-express.herokuapp.com/api/vaccinations")
-      .then((res) => res.json())
-      .then((data) => {
-        setVaccinationData(data);
-      })
-      .catch(console.log);
-  }, []);
-
-  useEffect(() => {
     let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
       daysPeriod,
       vaccinationRegion,
-      vaccinationData
+      data
     );
-    setEndDate(
-      getEndDate(dailyVaccPerRegion, threshold, targetRegion, vaccinationData)
-    );
-  }, [vaccinationData, threshold, daysPeriod, vaccinationRegion, targetRegion]);
+    setEndDate(getEndDate(dailyVaccPerRegion, threshold, targetRegion, data));
+  }, [data, threshold, daysPeriod, vaccinationRegion, targetRegion]);
 
   const handleDaysChange = (event: any) => {
     setDaysPeriod(event.target.value);
@@ -60,17 +49,17 @@ function Predictor() {
   };
 
   useEffect(() => {
-    let countryMenuItems: JSX.Element[] = getAvailableCountries(
-      vaccinationData
-    ).map((country) => {
-      return (
-        <MenuItem value={country} id={country}>
-          {country}
-        </MenuItem>
-      );
-    });
+    let countryMenuItems: JSX.Element[] = getAvailableCountries(data).map(
+      (country) => {
+        return (
+          <MenuItem value={country} id={country}>
+            {country}
+          </MenuItem>
+        );
+      }
+    );
     setCountryMenuItems(countryMenuItems);
-  }, [vaccinationData]);
+  }, [data]);
 
   return (
     <div className="predictor">
@@ -123,7 +112,7 @@ function Predictor() {
             getNumberOfVaccinationsPerDayPerRegion(
               daysPeriod,
               vaccinationRegion,
-              vaccinationData
+              data
             )
           )}
         </span>
@@ -132,18 +121,14 @@ function Predictor() {
       <p>
         Total vaccinations to this day:{" "}
         <span className="number">
-          {getVaccinatedPopulationByRegion(targetRegion, vaccinationData)}
+          {getVaccinatedPopulationByRegion(targetRegion, data)}
         </span>
       </p>
       <p>
         Remaining population to be vaccinated:{" "}
         <span className="number">
           {Math.round(
-            getRemainingToBeVaccinatedPopulation(
-              threshold,
-              targetRegion,
-              vaccinationData
-            )
+            getRemainingToBeVaccinatedPopulation(threshold, targetRegion, data)
           )}
         </span>
       </p>

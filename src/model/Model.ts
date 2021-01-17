@@ -6,7 +6,7 @@ const world_population = populations
   .map((country) => country.population)
   .reduce(sumReducer);
 
-const compare = (a: any, b: any) => {
+export const dateCompare = (a: any, b: any) => {
   if (a.date > b.date) return -1;
   else return 1;
 };
@@ -52,7 +52,7 @@ export function getNumberOfVaccinationsPerDayPerRegion(
   vaccinationData: any[]
 ): number {
   let regionData = vaccinationData.filter((v) => v.location === region);
-  regionData.sort(compare);
+  regionData.sort(dateCompare);
   regionData = regionData.slice(0, daysPeriod);
   let totalDailyVaccinations =
     regionData.length > 0
@@ -67,7 +67,7 @@ export function getVaccinatedPopulationByRegion(
   vaccinationData: any[]
 ) {
   let regionData = vaccinationData.filter((v) => v.location === region);
-  regionData.sort(compare);
+  regionData.sort(dateCompare);
   let result = regionData.length > 0 ? regionData[0].total_vaccinations : 0;
   return result;
 }
