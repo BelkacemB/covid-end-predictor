@@ -22,20 +22,28 @@ function Ranking(props: any) {
     return countryAndEndDate;
   });
 
-  countriesRanked.sort(dateCompare);
+  countriesRanked.sort(dateCompare).reverse();
 
-  let jsxCountryElements: JSX.Element[] = countriesRanked.map(
-    (countryAndDate) => {
-      return (
-        <p key={countryAndDate.country}>
-          Country: {countryAndDate.country}, end date:{" "}
-          {countryAndDate.date.toLocaleDateString("fr-FR")}
-        </p>
-      );
-    }
+  let countryRows: JSX.Element[] = countriesRanked.map((countryAndDate) => {
+    return (
+      <tr key={countryAndDate.country}>
+        <td>{countryAndDate.country}</td>
+        <td>{countryAndDate.date.toLocaleDateString("fr-FR")}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <div>
+      <table>
+        <tr>
+          <th>Country</th>
+          <th>Project herd immunity date</th>
+        </tr>
+        {countryRows}
+      </table>
+    </div>
   );
-
-  return <div>{jsxCountryElements}</div>;
 }
 
 export default Ranking;
