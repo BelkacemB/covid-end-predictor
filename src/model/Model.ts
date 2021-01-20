@@ -39,8 +39,13 @@ export function getRemainingToBeVaccinatedPopulation(
   );
 }
 
-export function getRegionPopulation(region: string) {
-  return populations.find((element) => element.country === region)?.population;
+export function getRegionPopulation(region: string): number {
+  let result: number = 0;
+  const regionPopulation = populations.find(
+    (element) => element.country === region
+  )?.population;
+  if (regionPopulation !== undefined) result = regionPopulation;
+  return result;
 }
 
 export function getNumberOfVaccinationsPerDayPerRegion(
@@ -62,7 +67,7 @@ export function getNumberOfVaccinationsPerDayPerRegion(
 export function getVaccinatedPopulationByRegion(
   region: string,
   vaccinationData: any[]
-) {
+): number {
   let regionData = vaccinationData.filter((v) => v.location === region);
   regionData.sort(dateCompare);
   let result = regionData.length > 0 ? regionData[0].total_vaccinations : 0;

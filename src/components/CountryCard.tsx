@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  getEndDate,
   getNumberOfVaccinationsPerDayPerRegion,
   getRegionPopulation,
   getRemainingToBeVaccinatedPopulation,
   getVaccinatedPopulationByRegion,
-  getAvailableCountries,
 } from "../model/Model";
 
 export default function CountryCard(props: any) {
@@ -20,14 +18,17 @@ export default function CountryCard(props: any) {
               props.region,
               props.data
             )
-          )}
+          ).toLocaleString()}
         </span>
         /day
       </p>
       <p>
         Total vaccinations to this day:{" "}
         <span className="number">
-          {getVaccinatedPopulationByRegion(props.region, props.data)}
+          {getVaccinatedPopulationByRegion(
+            props.region,
+            props.data
+          ).toLocaleString()}
         </span>
       </p>
       <p>
@@ -39,12 +40,14 @@ export default function CountryCard(props: any) {
               props.region,
               props.data
             )
-          )}
+          ).toLocaleString()}
         </span>
       </p>
       <p>
         Total population:{" "}
-        <span className="number">{getRegionPopulation(props.region)}</span>
+        <span className="number">
+          {getRegionPopulation(props.region).toLocaleString()}
+        </span>
       </p>
     </div>
   );
