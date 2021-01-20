@@ -101,7 +101,7 @@ function Predictor(props: any) {
       >
         {countryMenuItems}
       </Select>
-      population will be vaccinated in:
+      population will be vaccinated in: <br/><br/>
       <h1 className="date">{endDate.toLocaleDateString("fr-FR")}</h1>
       {data != null ? (
         <CountryCard
