@@ -5,7 +5,10 @@
   --light-blue: #b3cdd1ff;
   --tea-green: #c7f0bdff;
 }
-
+.App {
+  position:relative ; 
+  margin-top:100px; 
+}
 body {
   display: flex;
   flex-direction: row;
@@ -67,4 +70,11 @@ tr:nth-child(even) {
   .MuiInputBase-input
   .MuiInput-input {
   color: var(--light-blue);
+}
+
+.navbar {
+  position: absolute;
+  top: 0px; 
+  left: 0px; 
+  width: 100%;
 }

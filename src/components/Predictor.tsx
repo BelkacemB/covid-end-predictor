@@ -81,7 +81,7 @@ function Predictor(props: any) {
       >
         {countryMenuItems}
       </Select>
-      , &nbsp; <br />
+      , &nbsp;
       <Select
         labelId="thresholdLabel"
         id="thresholdId"

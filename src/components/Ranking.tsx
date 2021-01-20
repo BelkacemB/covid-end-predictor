@@ -40,7 +40,7 @@ function Ranking(props: any) {
           <th>Country</th>
           <th>Projected vaccine-induced herd immunity</th>
         </tr>
-        {countryRows}
+        {countryRows.slice(0, 9)}
       </table>
     </div>
   );
