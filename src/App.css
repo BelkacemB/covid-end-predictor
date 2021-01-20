@@ -1,5 +1,33 @@
-.App {
-  text-align: center;
+:root {
+--eggplant: #6c464fff;
+--mountbatten-pink: #9e768fff;
+--wild-blue-yonder: #9fa4c4ff;
+--light-blue: #b3cdd1ff;
+--tea-green: #c7f0bdff;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  margin: 2%;
+  justify-items: center;
+  font-family: Poppins;
+  color: var(--eggplant);
+}
+
+.country-card {
+  border: 0.3px solid var(--wild-blue-yonder); 
+  border-radius: 5px;
+  display: flex; 
+  flex-direction: column; 
+  margin: 5%; 
+  padding: 1%; 
+  box-shadow: 5px 5px 5px var(--tea-green);
+}
+
+.h1 {
+  margin: auto; 
+  justify-items: center; 
 }
 
 .App-logo {
@@ -13,39 +41,9 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .number {
   font-weight: bold;
-}
-
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 50%;
-  margin-left: 25%;
+  color: var(--wild-blue-yonder)
 }
 
 td,
@@ -56,5 +54,9 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: var(--light-blue);
+}
+
+.MuiSelect-root .MuiSelect-select .MuiSelect-selectMenu .MuiInputBase-input .MuiInput-input {
+  color: var(--light-blue)
 }

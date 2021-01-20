@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
+import CountryCard from "./CountryCard";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {
   getEndDate,
   getNumberOfVaccinationsPerDayPerRegion,
-  getRegionPopulation,
-  getRemainingToBeVaccinatedPopulation,
-  getVaccinatedPopulationByRegion,
   getAvailableCountries,
 } from "../model/Model";
 
@@ -62,7 +60,7 @@ function Predictor(props: any) {
   }, [data]);
 
   return (
-    <div className="predictor">
+    <div id="predictor">
       Based on the speed of vaccination in the last &nbsp;
       <Select
         labelId="daysPeriodLabel"
@@ -104,38 +102,17 @@ function Predictor(props: any) {
         {countryMenuItems}
       </Select>
       population will be vaccinated in:
-      <h1>{endDate.toLocaleDateString("fr-FR")}</h1>
-      <p>
-        Daily vaccinations:{" "}
-        <span className="number">
-          {Math.round(
-            getNumberOfVaccinationsPerDayPerRegion(
-              daysPeriod,
-              vaccinationRegion,
-              data
-            )
-          )}
-        </span>
-        /day
-      </p>
-      <p>
-        Total vaccinations to this day:{" "}
-        <span className="number">
-          {getVaccinatedPopulationByRegion(targetRegion, data)}
-        </span>
-      </p>
-      <p>
-        Remaining population to be vaccinated:{" "}
-        <span className="number">
-          {Math.round(
-            getRemainingToBeVaccinatedPopulation(threshold, targetRegion, data)
-          )}
-        </span>
-      </p>
-      <p>
-        Total population:{" "}
-        <span className="number">{getRegionPopulation(targetRegion)}</span>
-      </p>
+      <h1 className="date">{endDate.toLocaleDateString("fr-FR")}</h1>
+      {data != null ? (
+        <CountryCard
+          daysPeriod={daysPeriod}
+          region={targetRegion}
+          data={data}
+          threshold={threshold}
+        />
+      ) : (
+        <br />
+      )}
     </div>
   );
 }

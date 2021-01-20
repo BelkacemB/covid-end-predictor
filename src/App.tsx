@@ -18,9 +18,6 @@ function App() {
   if (vaccinationData.length > 0)
     return (
       <div className="App">
-        <header>
-          <h1>Covid predictor</h1>
-        </header>
         <body>
           <Predictor data={vaccinationData} />
           <Ranking data={vaccinationData} />
@@ -31,6 +28,7 @@ function App() {
     return (
       <body>
         <p>Loading...</p>
+        {/* Do a spinning logo for loading screen */}
       </body>
     );
   }

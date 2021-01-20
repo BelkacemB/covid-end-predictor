@@ -34,7 +34,7 @@ function Ranking(props: any) {
   });
 
   return (
-    <div>
+    <div id="ranking">
       <table>
         <tr>
           <th>Country</th>
