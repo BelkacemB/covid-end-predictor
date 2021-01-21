@@ -29,6 +29,10 @@ body {
   box-shadow: 5px 5px 5px var(--tea-green);
 }
 
+#vac-chart {
+  height:400px; 
+}
+
 h1 {
   font-size: 3em;
 }

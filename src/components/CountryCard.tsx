@@ -10,7 +10,9 @@ import VaccineChart from "./VaccineChart";
 export default function CountryCard(props: any) {
   return (
     <div className="country-card">
-      <VaccineChart country={props.region} data={props.data} />
+      <div id="vac-chart">
+        <VaccineChart country={props.region} data={props.data} />
+      </div>
       <br/>
       <p>
         Daily vaccinations:{" "}

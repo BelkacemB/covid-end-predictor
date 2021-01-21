@@ -17,21 +17,20 @@ export default function VaccineChart(props: any) {
         stacked: false,
       }}
       axisLeft={{
-        legend: "linear scale",
+        legend: "Total vaccinations",
         legendOffset: 12,
       }}
       axisBottom={{
         format: "%b %d",
         tickValues: "every 2 days",
-        legend: "time scale",
+        legend: "Date",
         legendOffset: -12,
       }}
-      pointSize={16}
+      pointSize={8}
+      colors={'#b3cdd1ff'}
+      pointColor="#6c464fff"
       pointBorderWidth={1}
-      pointBorderColor={{
-        from: "color",
-        modifiers: [["darker", 0.3]],
-      }}
+
       useMesh={true}
       enableSlices={false}
     />
