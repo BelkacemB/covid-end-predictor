@@ -5,10 +5,13 @@ import {
   getRemainingToBeVaccinatedPopulation,
   getVaccinatedPopulationByRegion,
 } from "../model/Model";
+import VaccineChart from "./VaccineChart";
 
 export default function CountryCard(props: any) {
   return (
     <div className="country-card">
+      <VaccineChart country={props.region} data={props.data} />
+      <br/>
       <p>
         Daily vaccinations:{" "}
         <span className="number">

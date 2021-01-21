@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Header from "./components/Header";
-import Footer from './components/Footer'; 
+import Footer from "./components/Footer";
 import Predictor from "./components/Predictor";
 import Ranking from "./components/Ranking";
-
 
 function App() {
   const [vaccinationData, setVaccinationData] = useState([]); // TODO Move this to context

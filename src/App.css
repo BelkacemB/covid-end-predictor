@@ -4,11 +4,10 @@
   --wild-blue-yonder: #9fa4c4ff;
   --light-blue: #b3cdd1ff;
   --tea-green: #c7f0bdff;
-
 }
 .App {
-  position:relative ; 
-  margin-top:100px; 
+  position: relative;
+  margin-top: 100px;
 }
 
 body {
@@ -74,25 +73,26 @@ tr:nth-child(even) {
   color: var(--light-blue);
 }
 
-.navbar { 
+.navbar {
   position: absolute;
-  top: 0px; 
-  left: 0px; 
+  top: 0px;
+  left: 0px;
   width: 100%;
-  color: var(--eggplant); 
+  box-shadow: 3px 3px 3px var(--light-blue);
+  color: var(--eggplant);
 }
 
 a.navbar-brand {
-  color: var(--eggplant) !important; 
+  color: var(--eggplant) !important;
 }
 
-#predictor { 
-  margin-right:2em; 
+#predictor {
+  margin-right: 2em;
 }
 
 .footer {
-  position: relative; 
+  position: relative;
   bottom: 0;
   font-style: italic;
-  float: right; 
+  float: right;
 }

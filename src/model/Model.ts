@@ -83,3 +83,13 @@ export function getAvailableCountries(vaccinationData: any[]): string[] {
   );
   return result;
 }
+
+export function formatChartData(data: any[], region: string) {
+  let dataArray = data
+    .filter((e) => e.location === region && e.total_vaccinations !== undefined)
+    .map((e) => {
+      let result = { x: e.date.slice(0, 10), y: e.total_vaccinations };
+      return result;
+    });
+  return [{ id: region, data: dataArray }];
+}
