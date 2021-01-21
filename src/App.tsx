@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Header from "./components/Header";
+import Footer from './components/Footer'; 
 import Predictor from "./components/Predictor";
 import Ranking from "./components/Ranking";
 
@@ -28,6 +29,7 @@ function App() {
             <Ranking data={vaccinationData} />
           </body>
         </div>
+        <Footer />
       </div>
     );
   else {

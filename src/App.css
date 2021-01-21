@@ -89,3 +89,10 @@ a.navbar-brand {
 #predictor { 
   margin-right:2em; 
 }
+
+.footer {
+  position: relative; 
+  bottom: 0;
+  font-style: italic;
+  float: right; 
+}
