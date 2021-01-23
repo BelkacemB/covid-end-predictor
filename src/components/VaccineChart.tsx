@@ -1,38 +1,28 @@
-import { ResponsiveLine } from "@nivo/line";
-import { formatChartData } from "../model/Model";
+import {
+  CartesianGrid,
+  LineChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Line,
+  Brush
+} from "recharts";
+
 export default function VaccineChart(props: any) {
   return (
-    <ResponsiveLine
-      data={formatChartData(props.data, props.country)}
-      margin={{ top: 20, right: 60, bottom: 30, left: 60 }}
-      xScale={{
-        type: "time",
-        format: "%Y-%m-%d",
-        useUTC: false,
-        precision: "day",
-      }}
-      xFormat="time:%Y-%m-%d"
-      yScale={{
-        type: "linear",
-        stacked: false,
-      }}
-      axisLeft={{
-        legend: "Total vaccinations",
-        legendOffset: 12,
-      }}
-      axisBottom={{
-        format: "%b %d",
-        tickValues: "every 2 days",
-        legend: "Date",
-        legendOffset: -12,
-      }}
-      pointSize={8}
-      colors={'#b3cdd1ff'}
-      pointColor="#6c464fff"
-      pointBorderWidth={1}
-
-      useMesh={true}
-      enableSlices={false}
+    <LineChart data={props.data} width={650} height={400} >
+    <CartesianGrid stroke="#b3cdd1ff" />
+    <XAxis
+      dataKey="date"
     />
+    <YAxis
+      interval="preserveEnd"
+      domain={["auto", "auto"]}
+      allowDecimals={false}
+    />
+    <Line type="monotone" dataKey="total_vaccinations" stroke=" #6c464fff" dot={{ stroke: '#9e768fff', strokeWidth: 3 }} />
+    <Tooltip />
+    <Brush height={20} />
+  </LineChart>
   );
 }
