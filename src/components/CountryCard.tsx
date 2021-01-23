@@ -7,16 +7,18 @@ import {
 } from "../model/Model";
 import VaccineChart from "./VaccineChart";
 
-
 export default function CountryCard(props: any) {
-  let countryData = props.data.filter((x: any) => x.location === props.region && x.total_vaccinations !== undefined)
+  let countryData = props.data.filter(
+    (x: any) =>
+      x.location === props.region && x.total_vaccinations !== undefined
+  );
 
   return (
     <div className="country-card">
       <div id="vac-chart">
         <VaccineChart data={countryData} />
       </div>
-      <br/>
+      <br />
       <p>
         Daily vaccinations:{" "}
         <span className="number">
