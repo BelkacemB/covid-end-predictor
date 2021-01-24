@@ -109,6 +109,7 @@ function Predictor(props: any) {
           daysPeriod={daysPeriod}
           region={targetRegion}
           data={data}
+          endDate={endDate}
           threshold={threshold}
         />
       ) : (

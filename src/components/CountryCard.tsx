@@ -13,23 +13,30 @@ export default function CountryCard(props: any) {
       x.location === props.region && x.total_vaccinations !== undefined
   );
 
+  let regionPopulation = getRegionPopulation(props.region);
+
+  let dailyVaccinations = Math.round(
+    getNumberOfVaccinationsPerDayPerRegion(
+      props.daysPeriod,
+      props.region,
+      props.data
+    )
+  );
+
   return (
     <div className="country-card">
       <div id="vac-chart">
-        <VaccineChart data={countryData} />
+        <VaccineChart
+          data={countryData}
+          endDate={props.endDate}
+          threshold={props.threshold * regionPopulation}
+          dailyVaccinations={dailyVaccinations}
+        />
       </div>
       <br />
       <p>
         Daily vaccinations:{" "}
-        <span className="number">
-          {Math.round(
-            getNumberOfVaccinationsPerDayPerRegion(
-              props.daysPeriod,
-              props.region,
-              props.data
-            )
-          ).toLocaleString()}
-        </span>
+        <span className="number">{dailyVaccinations.toLocaleString()}</span>
         /day
       </p>
       <p>
@@ -55,9 +62,7 @@ export default function CountryCard(props: any) {
       </p>
       <p>
         Total population:{" "}
-        <span className="number">
-          {getRegionPopulation(props.region).toLocaleString()}
-        </span>
+        <span className="number">{regionPopulation.toLocaleString()}</span>
       </p>
     </div>
   );
