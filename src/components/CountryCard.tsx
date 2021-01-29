@@ -31,6 +31,7 @@ export default function CountryCard(props: any) {
           endDate={props.endDate}
           threshold={props.threshold * regionPopulation}
           dailyVaccinations={dailyVaccinations}
+          regionPopulation={regionPopulation}
         />
       </div>
       <br />
