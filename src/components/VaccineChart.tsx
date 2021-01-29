@@ -8,9 +8,12 @@ import {
   ReferenceLine,
   Brush,
 } from "recharts";
+import { formatDateAxis, getFirstDaysOfMonths } from "../model/ChartUtils";
 
 export default function VaccineChart(props: any) {
-  let dataWithProjection = props.data;
+  const data = props.data; 
+  let dataWithProjection = [ ...data ]
+  // What's the typeof date object?
   const totalVaccinations =
     dataWithProjection[dataWithProjection.length - 1].total_vaccinations;
   dataWithProjection[dataWithProjection.length - 1].projected_vaccinations =
@@ -23,7 +26,7 @@ export default function VaccineChart(props: any) {
   let i = 1;
   while (projectionDate <= props.endDate) {
     dataWithProjection.push({
-      date: projectionDate,
+      date: new Date(projectionDate),
       projected_vaccinations: totalVaccinations + props.dailyVaccinations * i,
     });
     projectionDate.setDate(projectionDate.getDate() + 1);
@@ -33,7 +36,7 @@ export default function VaccineChart(props: any) {
   return (
     <LineChart data={dataWithProjection} width={650} height={400}>
       <CartesianGrid stroke="#b3cdd1ff" />
-      <XAxis dataKey="date" />
+      <XAxis dataKey="date" tickFormatter={formatDateAxis} ticks={getFirstDaysOfMonths(dataWithProjection)} />
       <YAxis
         interval="preserveEnd"
         domain={["auto", "auto"]}
@@ -42,11 +45,22 @@ export default function VaccineChart(props: any) {
       <Line
         type="monotone"
         dataKey="total_vaccinations"
-        stroke=" #6c464fff"
-        dot={{ stroke: "#9e768fff", strokeWidth: 3 }}
+        stroke="#6c464fff"
+        strokeWidth={3}
+        dot={false}
       />
-      <Line type="dashed" dataKey="projected_vaccinations" />
-      <ReferenceLine y={props.threshold} stroke="green" strokeDasharray="3 3" />
+      <Line
+        type="dashed"
+        dataKey="projected_vaccinations"
+        dot={false}
+        stroke="#6c464fff"
+        strokeDasharray="3 3"
+      />
+      <ReferenceLine
+        y={props.threshold}
+        stroke="orange"
+        strokeDasharray="3 3"
+      />
       <Tooltip />
       <Brush height={20} />
     </LineChart>
