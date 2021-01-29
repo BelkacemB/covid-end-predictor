@@ -7,17 +7,18 @@ import Predictor from "./components/Predictor";
 import Ranking from "./components/Ranking";
 
 function App() {
-  const [vaccinationData, setVaccinationData] = useState([]); 
+  const [vaccinationData, setVaccinationData] = useState([]);
 
-  
   useEffect(() => {
     fetch("https://covid-express.herokuapp.com/api/vaccinations")
       .then((res) => res.json())
       .then((data) => {
-        setVaccinationData(data.map( (e: { [x: string]: string | number | Date }) => {
-          e["date"] = new Date(e["date"]);
-          return e;
-        }));
+        setVaccinationData(
+          data.map((e: { [x: string]: string | number | Date }) => {
+            e["date"] = new Date(e["date"]);
+            return e;
+          })
+        );
       })
       .catch(console.log);
   }, []);
