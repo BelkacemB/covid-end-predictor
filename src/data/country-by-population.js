@@ -975,4 +975,8 @@ export const populations = [
     country: "Zimbabwe",
     population: 14439018,
   },
+  {
+    country: "World",
+    population:  7874965825,
+  }
 ];
