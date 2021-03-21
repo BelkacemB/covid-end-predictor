@@ -70,7 +70,7 @@ export function getVaccinatedPopulationByRegion(
 ): number {
   let regionData = vaccinationData.filter((v) => v.location === region);
   regionData.sort(dateCompare);
-  let result = regionData.length > 0 ? regionData[0].total_vaccinations : 0;
+  let result = regionData.length > 0 ? regionData[0].people_fully_vaccinated : 0;
   return result;
 }
 
@@ -79,16 +79,16 @@ export function getAvailableCountries(vaccinationData: any[]): string[] {
   let populationCountries = populations.map((p) => p.country);
   let vaccinatedCountries = vaccinationData.map((p) => p.location);
   let result = populationCountries.filter((country) =>
-    vaccinatedCountries.includes(country)
+    vaccinatedCountries.includes(country) && getRegionPopulation(country) >= 1000000
   );
   return result;
 }
 
 export function formatChartData(data: any[], region: string) {
   let dataArray = data
-    .filter((e) => e.location === region && e.total_vaccinations !== undefined)
+    .filter((e) => e.location === region && e.people_fully_vaccinated !== undefined)
     .map((e) => {
-      let result = { x: e.date.slice(0, 10), y: e.total_vaccinations };
+      let result = { x: e.date.slice(0, 10), y: e.people_fully_vaccinated };
       return result;
     });
   return [{ id: region, data: dataArray }];

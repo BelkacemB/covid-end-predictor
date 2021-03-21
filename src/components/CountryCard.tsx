@@ -10,7 +10,7 @@ import VaccineChart from "./VaccineChart";
 export default function CountryCard(props: any) {
   let countryData = props.data.filter(
     (x: any) =>
-      x.location === props.region && x.total_vaccinations !== undefined
+      x.location === props.region && x.people_fully_vaccinated !== undefined
   );
 
   let regionPopulation = getRegionPopulation(props.region);
@@ -26,13 +26,6 @@ export default function CountryCard(props: any) {
   return (
     <div className="country-card">
       <div id="vac-chart">
-        <VaccineChart
-          data={countryData}
-          endDate={props.endDate}
-          threshold={props.threshold * regionPopulation}
-          dailyVaccinations={dailyVaccinations}
-          regionPopulation={regionPopulation}
-        />
       </div>
       <br />
       <p>
