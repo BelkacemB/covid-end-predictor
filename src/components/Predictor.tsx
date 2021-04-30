@@ -14,8 +14,8 @@ function Predictor(props: any) {
   const [daysPeriod, setDaysPeriod] = useState(1);
   const [threshold, setThreshold] = useState(0.7);
   const [endDate, setEndDate] = useState(new Date());
-  const [vaccinationRegion, setVaccinationRegion] = useState("United States");
-  const [targetRegion, setTargetRegion] = useState("United States");
+  const [vaccinationRegion, setVaccinationRegion] = useState("World");
+  const [targetRegion, setTargetRegion] = useState("World");
   const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
     []
   );
@@ -27,7 +27,9 @@ function Predictor(props: any) {
         ...x,
         total_vaccinations:
           vaccType === "full"
-            ? x.people_fully_vaccinated
+            ? x.people_fully_vaccinated == null
+              ? NaN
+              : x.people_fully_vaccinated
             : x.total_vaccinations - x.people_fully_vaccinated,
       };
     });
