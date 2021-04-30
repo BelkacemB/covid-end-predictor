@@ -18,11 +18,24 @@ function Predictor(props: any) {
   const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
     []
   );
+  const [vaccType, setVaccType] = useState("Primo");
+
+  // TODO Bug fix: we're altering the original data, each refresh breaks it 
+  useEffect(() => {
+    data = data.map((e: any) => {
+      e.total_vaccinations =
+        vaccType == "Full"
+          ? e.people_fully_vaccinated
+          : e.total_vaccinations - e.people_fully_vaccinated;
+      return e;
+    });
+  }, [vaccType]);
 
   useEffect(() => {
     let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
       daysPeriod,
       vaccinationRegion,
+      vaccType,
       data
     );
     setEndDate(getEndDate(dailyVaccPerRegion, threshold, targetRegion, data));
@@ -61,7 +74,7 @@ function Predictor(props: any) {
 
   return (
     <div id="predictor">
-      Based on the speed of vaccination in the last &nbsp;
+      Based on the rate of vaccinations in the last &nbsp;
       <Select
         labelId="daysPeriodLabel"
         id="daysPeriodId"
@@ -111,6 +124,7 @@ function Predictor(props: any) {
           data={data}
           endDate={endDate}
           threshold={threshold}
+          vaccType={vaccType}
         />
       ) : (
         <br />

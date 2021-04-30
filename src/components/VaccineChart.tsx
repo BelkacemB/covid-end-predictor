@@ -16,9 +16,9 @@ export default function VaccineChart(props: any) {
 
   // What's the typeof date object?
   const totalVaccinations =
-    dataWithProjection[dataWithProjection.length - 1].people_fully_vaccinated;
+    dataWithProjection[dataWithProjection.length - 1].total_vaccinations;
   dataWithProjection[dataWithProjection.length - 1].projected_vaccinations =
-    dataWithProjection[dataWithProjection.length - 1].people_fully_vaccinated;
+    dataWithProjection[dataWithProjection.length - 1].total_vaccinations;
 
   let projectionDate = new Date(
     dataWithProjection[dataWithProjection.length - 1].date
@@ -37,7 +37,7 @@ export default function VaccineChart(props: any) {
 
   dataWithProjection.map((e) => {
     e["total_vaccinations_per_population"] =
-      e["people_fully_vaccinated"] * (100 / props.regionPopulation);
+      e["total_vaccinations"] * (100 / props.regionPopulation);
     e["projected_vaccinations_per_population"] =
       e["projected_vaccinations"] * (100 / props.regionPopulation);
     return e;

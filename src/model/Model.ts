@@ -53,6 +53,7 @@ export function getRegionPopulation(region: string): number {
 export function getNumberOfVaccinationsPerDayPerRegion(
   daysPeriod: number,
   region: string,
+  vaccType: string,
   vaccinationData: any[]
 ): number {
   let regionData = vaccinationData.filter((v) => v.location === region);
@@ -63,7 +64,8 @@ export function getNumberOfVaccinationsPerDayPerRegion(
       ? regionData.map((day) => day.daily_vaccinations).reduce(sumReducer)
       : 1000;
   let vaccPerDay = totalDailyVaccinations / daysPeriod;
-  return vaccPerDay;
+  let vaccTypeCoeff = vaccType == "Full" ? 0.5 : 1; 
+  return vaccPerDay * vaccTypeCoeff;
 }
 
 export function getVaccinatedPopulationByRegion(
@@ -73,7 +75,7 @@ export function getVaccinatedPopulationByRegion(
   let regionData = vaccinationData.filter((v) => v.location === region);
   regionData.sort(dateCompare);
   let result =
-    regionData.length > 0 ? regionData[0].people_fully_vaccinated : 0;
+    regionData.length > 0 ? regionData[0].total_vaccinations : 0;
   return result;
 }
 
@@ -94,10 +96,10 @@ export function getAvailableCountries(vaccinationData: any[]): string[] {
 export function formatChartData(data: any[], region: string) {
   let dataArray = data
     .filter(
-      (e) => e.location === region && e.people_fully_vaccinated !== undefined
+      (e) => e.location === region && e.total_vaccinations !== undefined
     )
     .map((e) => {
-      let result = { x: e.date.slice(0, 10), y: e.people_fully_vaccinated };
+      let result = { x: e.date.slice(0, 10), y: e.total_vaccinations };
       return result;
     });
   return [{ id: region, data: dataArray }];

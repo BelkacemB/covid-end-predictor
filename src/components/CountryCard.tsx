@@ -10,7 +10,7 @@ import VaccineChart from "../components/VaccineChart";
 export default function CountryCard(props: any) {
   let countryData = props.data.filter(
     (x: any) =>
-      x.location === props.region && x.people_fully_vaccinated !== undefined
+      x.location === props.region && x.total_vaccinations !== undefined
   );
 
   let regionPopulation = getRegionPopulation(props.region);
@@ -19,6 +19,7 @@ export default function CountryCard(props: any) {
     getNumberOfVaccinationsPerDayPerRegion(
       props.daysPeriod,
       props.region,
+      props.vaccType,
       props.data
     )
   );
