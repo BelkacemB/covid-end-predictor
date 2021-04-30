@@ -39,7 +39,6 @@ function Predictor(props: any) {
     let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
       daysPeriod,
       vaccinationRegion,
-      vaccType,
       dataRef.current
     );
     setEndDate(

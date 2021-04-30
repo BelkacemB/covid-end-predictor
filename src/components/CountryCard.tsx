@@ -19,7 +19,6 @@ export default function CountryCard(props: any) {
     getNumberOfVaccinationsPerDayPerRegion(
       props.daysPeriod,
       props.region,
-      props.vaccType,
       props.data
     )
   );
