@@ -977,6 +977,6 @@ export const populations = [
   },
   {
     country: "World",
-    population:  7874965825,
-  }
+    population: 7874965825,
+  },
 ];

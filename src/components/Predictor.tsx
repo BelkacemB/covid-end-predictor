@@ -9,8 +9,8 @@ import {
 } from "../model/Model";
 
 function Predictor(props: any) {
-  let { data } = props; 
-  const dataRef = useRef(data); 
+  let { data } = props;
+  const dataRef = useRef(data);
   const [daysPeriod, setDaysPeriod] = useState(1);
   const [threshold, setThreshold] = useState(0.7);
   const [endDate, setEndDate] = useState(new Date());
@@ -22,13 +22,13 @@ function Predictor(props: any) {
   const [vaccType, setVaccType] = useState("Primo");
 
   useEffect(() => {
-     dataRef.current = (data.map((e: any) => {
-          e.total_vaccinations =
-            vaccType === "Full"
-              ? e.people_fully_vaccinated
-              : e.total_vaccinations - e.people_fully_vaccinated;
-          return e;
-        }));
+    dataRef.current = data.map((e: any) => {
+      e.total_vaccinations =
+        vaccType === "Full"
+          ? e.people_fully_vaccinated
+          : e.total_vaccinations - e.people_fully_vaccinated;
+      return e;
+    });
   }, [vaccType, data]);
 
   useEffect(() => {
@@ -38,7 +38,9 @@ function Predictor(props: any) {
       vaccType,
       dataRef.current
     );
-    setEndDate(getEndDate(dailyVaccPerRegion, threshold, targetRegion, dataRef.current));
+    setEndDate(
+      getEndDate(dailyVaccPerRegion, threshold, targetRegion, dataRef.current)
+    );
   }, [threshold, daysPeriod, vaccinationRegion, targetRegion, vaccType]);
 
   const handleDaysChange = (event: any) => {
@@ -60,17 +62,17 @@ function Predictor(props: any) {
   };
 
   useEffect(() => {
-    let countryMenuItems: JSX.Element[] = getAvailableCountries(dataRef.current).map(
-      (country) => {
-        return (
-          <MenuItem value={country} id={country}>
-            {country}
-          </MenuItem>
-        );
-      }
-    );
+    let countryMenuItems: JSX.Element[] = getAvailableCountries(
+      dataRef.current
+    ).map((country) => {
+      return (
+        <MenuItem value={country} id={country}>
+          {country}
+        </MenuItem>
+      );
+    });
     setCountryMenuItems(countryMenuItems);
-  }, []); 
+  }, []);
 
   return (
     <div id="predictor">
