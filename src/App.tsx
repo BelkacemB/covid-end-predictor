@@ -23,7 +23,7 @@ function App() {
       .catch(console.log);
   }, []);
 
-  if (vaccinationData.length > 0)
+  if (vaccinationData !== undefined && vaccinationData.length > 0)
     return (
       <div>
         <Header />

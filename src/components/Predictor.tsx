@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CountryCard from "./CountryCard";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -9,7 +9,8 @@ import {
 } from "../model/Model";
 
 function Predictor(props: any) {
-  var { data } = props;
+  let { data } = props; 
+  const dataRef = useRef(data); 
   const [daysPeriod, setDaysPeriod] = useState(1);
   const [threshold, setThreshold] = useState(0.7);
   const [endDate, setEndDate] = useState(new Date());
@@ -20,26 +21,25 @@ function Predictor(props: any) {
   );
   const [vaccType, setVaccType] = useState("Primo");
 
-  // TODO Bug fix: we're altering the original data, each refresh breaks it 
   useEffect(() => {
-    data = data.map((e: any) => {
-      e.total_vaccinations =
-        vaccType == "Full"
-          ? e.people_fully_vaccinated
-          : e.total_vaccinations - e.people_fully_vaccinated;
-      return e;
-    });
-  }, [vaccType]);
+     dataRef.current = (data.map((e: any) => {
+          e.total_vaccinations =
+            vaccType === "Full"
+              ? e.people_fully_vaccinated
+              : e.total_vaccinations - e.people_fully_vaccinated;
+          return e;
+        }));
+  }, [vaccType, data]);
 
   useEffect(() => {
     let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
       daysPeriod,
       vaccinationRegion,
       vaccType,
-      data
+      dataRef.current
     );
-    setEndDate(getEndDate(dailyVaccPerRegion, threshold, targetRegion, data));
-  }, [data, threshold, daysPeriod, vaccinationRegion, targetRegion]);
+    setEndDate(getEndDate(dailyVaccPerRegion, threshold, targetRegion, dataRef.current));
+  }, [threshold, daysPeriod, vaccinationRegion, targetRegion, vaccType]);
 
   const handleDaysChange = (event: any) => {
     setDaysPeriod(event.target.value);
@@ -60,7 +60,7 @@ function Predictor(props: any) {
   };
 
   useEffect(() => {
-    let countryMenuItems: JSX.Element[] = getAvailableCountries(data).map(
+    let countryMenuItems: JSX.Element[] = getAvailableCountries(dataRef.current).map(
       (country) => {
         return (
           <MenuItem value={country} id={country}>
@@ -70,7 +70,7 @@ function Predictor(props: any) {
       }
     );
     setCountryMenuItems(countryMenuItems);
-  }, [data]);
+  }, []); 
 
   return (
     <div id="predictor">
@@ -117,11 +117,11 @@ function Predictor(props: any) {
       population will be vaccinated in: <br />
       <br />
       <h1 className="date">{endDate.toLocaleDateString("fr-FR")}</h1>
-      {data != null ? (
+      {dataRef.current != null ? (
         <CountryCard
           daysPeriod={daysPeriod}
           region={targetRegion}
-          data={data}
+          data={dataRef.current}
           endDate={endDate}
           threshold={threshold}
           vaccType={vaccType}
