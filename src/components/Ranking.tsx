@@ -15,7 +15,7 @@ function Ranking(props: any) {
     let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
       1,
       country,
-      "Full",
+      "full",
       data
     );
     let endDate = getEndDate(dailyVaccPerRegion, 0.7, country, data);

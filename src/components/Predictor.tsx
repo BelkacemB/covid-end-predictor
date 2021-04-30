@@ -19,15 +19,17 @@ function Predictor(props: any) {
   const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
     []
   );
-  const [vaccType, setVaccType] = useState("Primo");
+  const [vaccType, setVaccType] = useState("primo");
 
   useEffect(() => {
-    dataRef.current = data.map((e: any) => {
-      e.total_vaccinations =
-        vaccType === "Full"
-          ? e.people_fully_vaccinated
-          : e.total_vaccinations - e.people_fully_vaccinated;
-      return e;
+    dataRef.current = data.map((x: any) => {
+      return {
+        ...x,
+        total_vaccinations:
+          vaccType === "full"
+            ? x.people_fully_vaccinated
+            : x.total_vaccinations - x.people_fully_vaccinated,
+      };
     });
   }, [vaccType, data]);
 
@@ -45,6 +47,10 @@ function Predictor(props: any) {
 
   const handleDaysChange = (event: any) => {
     setDaysPeriod(event.target.value);
+  };
+
+  const handleVaccTypeChange = (event: any) => {
+    setVaccType(event.target.value);
   };
 
   const handleThresholdChange = (event: any) => {
@@ -76,7 +82,17 @@ function Predictor(props: any) {
 
   return (
     <div id="predictor">
-      Based on the rate of vaccinations in the last &nbsp;
+      Based on the rate of &nbsp;
+      <Select
+        labelId="vaccTypeLabel"
+        id="vaccTypeLabelId"
+        value={vaccType}
+        onChange={handleVaccTypeChange}
+      >
+        <MenuItem value={"primo"}>first injections</MenuItem>
+        <MenuItem value={"full"}>full vaccinations</MenuItem>
+      </Select>
+      in the last &nbsp;
       <Select
         labelId="daysPeriodLabel"
         id="daysPeriodId"
