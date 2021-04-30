@@ -23,7 +23,9 @@ export function getEndDate(
     region,
     data
   );
-  let daysToVaccinate = Math.round(remainingSusceptiblePopulation / speed);
+  let daysToVaccinate = Math.round(
+    remainingSusceptiblePopulation / (speed / 2)
+  );
   result.setDate(result.getDate() + daysToVaccinate);
   return result;
 }
@@ -70,23 +72,30 @@ export function getVaccinatedPopulationByRegion(
 ): number {
   let regionData = vaccinationData.filter((v) => v.location === region);
   regionData.sort(dateCompare);
-  let result = regionData.length > 0 ? regionData[0].people_fully_vaccinated : 0;
+  let result =
+    regionData.length > 0 ? regionData[0].people_fully_vaccinated : 0;
   return result;
 }
 
 export function getAvailableCountries(vaccinationData: any[]): string[] {
   // Don't forget to push
   let populationCountries = populations.map((p) => p.country);
-  let vaccinatedCountries = vaccinationData.map((p) => p.location);
-  let result = populationCountries.filter((country) =>
-    vaccinatedCountries.includes(country) && getRegionPopulation(country) >= 1000000
+  let vaccinatedCountries = vaccinationData
+    .filter((p) => p.people_fully_vaccinated != null)
+    .map((p) => p.location);
+  let result = populationCountries.filter(
+    (country) =>
+      vaccinatedCountries.includes(country) &&
+      getRegionPopulation(country) >= 1000000
   );
   return result;
 }
 
 export function formatChartData(data: any[], region: string) {
   let dataArray = data
-    .filter((e) => e.location === region && e.people_fully_vaccinated !== undefined)
+    .filter(
+      (e) => e.location === region && e.people_fully_vaccinated !== undefined
+    )
     .map((e) => {
       let result = { x: e.date.slice(0, 10), y: e.people_fully_vaccinated };
       return result;
