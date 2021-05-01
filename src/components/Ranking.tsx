@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   getAvailableCountries,
   getNumberOfVaccinationsPerDayPerRegion,
@@ -9,18 +9,35 @@ import {
 function Ranking(props: any) {
   let { data } = props;
 
-  let availableCountries = getAvailableCountries(data);
+  const dataRef = useRef(data);
 
-  let countriesRanked = availableCountries?.map((country) => {
-    let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
-      1,
-      country,
-      data
-    );
-    let endDate = getEndDate(dailyVaccPerRegion, 0.7, country, data);
-    let countryAndEndDate = { country: country, date: endDate };
-    return countryAndEndDate;
+  dataRef.current = data.map((x: any) => {
+    return {
+      ...x,
+      total_vaccinations: x.total_vaccinations - x.people_fully_vaccinated,
+    };
   });
+
+  let todaysDate = new Date();
+  let availableCountries = getAvailableCountries(dataRef.current);
+
+  let countriesRanked = availableCountries
+    ?.map((country) => {
+      let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
+        2,
+        country,
+        dataRef.current
+      );
+      let endDate = getEndDate(
+        dailyVaccPerRegion,
+        0.6,
+        country,
+        dataRef.current
+      );
+      let countryAndEndDate = { country: country, date: endDate };
+      return countryAndEndDate;
+    })
+    .filter((cd) => isFinite(cd.date.getTime()));
 
   countriesRanked.sort(dateCompare).reverse();
 
@@ -28,7 +45,15 @@ function Ranking(props: any) {
     return (
       <tr key={countryAndDate.country}>
         <td>{countryAndDate.country}</td>
-        <td>{countryAndDate.date.toLocaleDateString("fr-FR")}</td>
+        <td>
+          {countryAndDate.date <= todaysDate ? (
+            <span role="img" aria-label="chequered">
+              🏁
+            </span>
+          ) : (
+            countryAndDate.date.toLocaleDateString("fr-FR")
+          )}
+        </td>
       </tr>
     );
   });
