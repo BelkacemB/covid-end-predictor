@@ -45,6 +45,16 @@ export default function VaccineChart(props: any) {
 
   let threshold = (props.threshold * 100) / props.regionPopulation;
 
+  const labelTooltipFormatter = (value: any) => {
+    if (value instanceof Date) return value.toISOString().split("T")[0];
+  };
+
+  const valueTooltipFormatter = (value: number, name: string, props: any) => {
+    let formatted_name =
+      name === "total_vaccinations_per_population" ? "Total" : "Projected";
+    return [value.toFixed(2) + "%", formatted_name];
+  };
+
   return (
     <LineChart data={dataWithProjection} width={650} height={400}>
       <CartesianGrid stroke="#b3cdd1ff" />
@@ -79,7 +89,10 @@ export default function VaccineChart(props: any) {
         strokeDasharray="3 3"
         strokeWidth={3}
       />
-      <Tooltip />
+      <Tooltip
+        labelFormatter={labelTooltipFormatter}
+        formatter={valueTooltipFormatter}
+      />
       <Brush height={20} />
     </LineChart>
   );
