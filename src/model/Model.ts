@@ -23,9 +23,8 @@ export function getEndDate(
     region,
     data
   );
-  let daysToVaccinate = Math.round(
-    remainingSusceptiblePopulation / (speed / 2)
-  );
+  let daysToVaccinate =
+    speed > 0 ? Math.round(remainingSusceptiblePopulation / (speed / 2)) : 400;
   result.setDate(result.getDate() + daysToVaccinate);
   return result;
 }
