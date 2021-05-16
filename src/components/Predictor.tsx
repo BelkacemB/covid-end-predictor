@@ -11,7 +11,7 @@ import {
 function Predictor(props: any) {
   let { data } = props;
   const dataRef = useRef(data);
-  const [daysPeriod, setDaysPeriod] = useState(1);
+  const [daysPeriod, setDaysPeriod] = useState(3);
   const [threshold, setThreshold] = useState(0.7);
   const [endDate, setEndDate] = useState(new Date());
   const [vaccinationRegion, setVaccinationRegion] = useState("World");
@@ -100,9 +100,9 @@ function Predictor(props: any) {
         value={daysPeriod}
         onChange={handleDaysChange}
       >
-        <MenuItem value={1}>1</MenuItem>
-        <MenuItem value={2}>2</MenuItem>
         <MenuItem value={3}>3</MenuItem>
+        <MenuItem value={10}>10</MenuItem>
+        <MenuItem value={20}>20</MenuItem>
       </Select>
       days in the &nbsp;
       <Select

@@ -43,7 +43,7 @@ function Ranking(props: any) {
   let countriesRanked = availableCountries
     ?.map((country) => {
       let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
-        2,
+        3,
         country,
         contextualData
       );
