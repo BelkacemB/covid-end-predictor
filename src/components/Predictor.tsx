@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import CountryCard from "./CountryCard";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField"; 
+import Autocomplete from "@material-ui/lab/Autocomplete"
 import {
   getEndDate,
   getNumberOfVaccinationsPerDayPerRegion,
@@ -16,9 +18,6 @@ function Predictor(props: any) {
   const [endDate, setEndDate] = useState(new Date());
   const [vaccinationRegion, setVaccinationRegion] = useState("World");
   const [targetRegion, setTargetRegion] = useState("World");
-  const [countryMenuItems, setCountryMenuItems] = useState<Array<JSX.Element>>(
-    []
-  );
   const [vaccType, setVaccType] = useState("primo");
 
   useEffect(() => {
@@ -58,28 +57,15 @@ function Predictor(props: any) {
     setThreshold(event.target.value);
   };
 
-  const handleVaccinationRegionChange = (event: any) => {
-    setVaccinationRegion(event.target.value);
-    setTargetRegion(event.target.value);
+  const handleVaccinationRegionChange = (event: any, value: any) => {
+    setVaccinationRegion(value);
+    setTargetRegion(value);
   };
 
   const handleTargetRegionChange = (event: any) => {
     setTargetRegion(event.target.value);
     setVaccinationRegion(event.target.value);
   };
-
-  useEffect(() => {
-    let countryMenuItems: JSX.Element[] = getAvailableCountries(
-      dataRef.current
-    ).map((country) => {
-      return (
-        <MenuItem value={country} id={country}>
-          {country}
-        </MenuItem>
-      );
-    });
-    setCountryMenuItems(countryMenuItems);
-  }, []);
 
   return (
     <div id="predictor">
@@ -105,14 +91,16 @@ function Predictor(props: any) {
         <MenuItem value={20}>20</MenuItem>
       </Select>
       days in the &nbsp;
-      <Select
-        labelId="vaccinationCountryLabel"
+      <Autocomplete
         id="vaccinationCountryId"
+        autoComplete={true}
         value={vaccinationRegion}
+        options={getAvailableCountries(dataRef.current)}
         onChange={handleVaccinationRegionChange}
-      >
-        {countryMenuItems}
-      </Select>
+        style={{ width: 250, display: "inline-block"}}
+        renderInput={(params) => <TextField {...params} label="Region" variant="outlined" />}
+      />
+
       , &nbsp;
       <Select
         labelId="thresholdLabel"
@@ -125,14 +113,7 @@ function Predictor(props: any) {
         <MenuItem value={0.8}>80%</MenuItem>
       </Select>
       &nbsp; of the &nbsp;
-      <Select
-        labelId="targetCountryLabel"
-        id="targetCountryId"
-        value={targetRegion}
-        onChange={handleTargetRegionChange}
-      >
-        {countryMenuItems}
-      </Select>
+      &nbsp; {targetRegion}  &nbsp;
       population will be vaccinated in: <br />
       <br />
       <h1 className="date">{endDate.toLocaleDateString("fr-FR")}</h1>
