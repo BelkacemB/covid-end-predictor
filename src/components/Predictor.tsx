@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import CountryCard from "./CountryCard";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField"; 
-import Autocomplete from "@material-ui/lab/Autocomplete"
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   getEndDate,
   getNumberOfVaccinationsPerDayPerRegion,
@@ -92,10 +92,11 @@ function Predictor(props: any) {
         value={vaccinationRegion}
         options={getAvailableCountries(dataRef.current)}
         onChange={handleVaccinationRegionChange}
-        style={{ width: 250, display: "inline-block"}}
-        renderInput={(params) => <TextField {...params} label="Region" variant="outlined" />}
+        style={{ width: 250, display: "inline-block" }}
+        renderInput={(params) => (
+          <TextField {...params} label="Region" variant="outlined" />
+        )}
       />
-
       , &nbsp;
       <Select
         labelId="thresholdLabel"
@@ -107,9 +108,8 @@ function Predictor(props: any) {
         <MenuItem value={0.7}>70%</MenuItem>
         <MenuItem value={0.8}>80%</MenuItem>
       </Select>
-      &nbsp; of the
-      &nbsp; {targetRegion}  &nbsp;
-      population will be vaccinated in: <br />
+      &nbsp; of the &nbsp; {targetRegion} &nbsp; population will be vaccinated
+      in: <br />
       <br />
       <h1 className="date">{endDate.toLocaleDateString("fr-FR")}</h1>
       {dataRef.current != null ? (
