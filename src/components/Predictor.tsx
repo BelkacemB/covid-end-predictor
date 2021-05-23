@@ -58,8 +58,10 @@ function Predictor(props: any) {
   };
 
   const handleVaccinationRegionChange = (event: any, value: any) => {
-    setVaccinationRegion(value);
-    setTargetRegion(value);
+    if (value) {
+      setVaccinationRegion(value);
+      setTargetRegion(value);
+    }
   };
 
   return (
