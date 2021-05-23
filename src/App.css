@@ -101,3 +101,7 @@ a.navbar-brand {
   font-style: italic;
   float: right;
 }
+
+.MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
+  padding: 0px !important;
+}

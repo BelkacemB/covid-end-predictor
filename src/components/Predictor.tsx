@@ -107,7 +107,7 @@ function Predictor(props: any) {
         <MenuItem value={0.7}>70%</MenuItem>
         <MenuItem value={0.8}>80%</MenuItem>
       </Select>
-      &nbsp; of the &nbsp;
+      &nbsp; of the
       &nbsp; {targetRegion}  &nbsp;
       population will be vaccinated in: <br />
       <br />
