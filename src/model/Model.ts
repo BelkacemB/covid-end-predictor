@@ -24,7 +24,7 @@ export function getEndDate(
     data
   );
   let daysToVaccinate =
-    speed > 0 ? Math.round(remainingSusceptiblePopulation / (speed / 2)) : 400;
+    speed > 0 ? Math.round(remainingSusceptiblePopulation / speed) : 400;
   result.setDate(result.getDate() + daysToVaccinate);
   return result;
 }
@@ -61,8 +61,8 @@ export function getNumberOfVaccinationsPerDayPerRegion(
   let vaccPerDay =
     regionData.length > 0
       ? (regionData[0]?.total_vaccinations -
-          regionData[daysPeriod]?.total_vaccinations) /
-        daysPeriod
+        regionData[interval_size - 1]?.total_vaccinations) /
+        interval_size - 1
       : 4000000;
   return vaccPerDay;
 }

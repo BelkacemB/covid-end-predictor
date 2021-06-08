@@ -29,7 +29,7 @@ export default function VaccineChart(props: any) {
     dataWithProjection.push({
       date: new Date(projectionDate),
       projected_vaccinations:
-        totalVaccinations + (props.dailyVaccinations / 2) * i,
+        totalVaccinations + (props.dailyVaccinations) * i,
     });
     projectionDate.setDate(projectionDate.getDate() + 1);
     i++;
