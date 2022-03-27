@@ -50,7 +50,6 @@ export default function VaccineChart(props: any) {
       .attr("width", fullWidth)
       .attr("height", fullHeight)
       .style('background-color', '#f5f5f5')
-      .style('margin-top', '50');
 
     const x = d3
       .scaleTime()
@@ -68,16 +67,17 @@ export default function VaccineChart(props: any) {
       ])
       .range([height, 0]);
 
-    const xAxis = d3.axisBottom(x).ticks(5) //.tickFormat(formatDateAxis);
-    const yAxis = d3.axisLeft(y).tickFormat((d: any) => {
-      return d + " (" + (d * (100 / props.regionPopulation)).toFixed(1) + "%)";
-    });
+    const xAxis = d3.axisBottom(x).ticks(4).tickFormat(
+      (d: any) => formatDateAxis(d)
+    )
+   
+    const yAxis = d3.axisLeft(y).ticks(100)
 
     const line = d3
       .line()
       .x((d: any) => x(d.date))
-      .y((d: any) => y(d.total_vaccinations_per_population))
-      .curve(d3.curveMonotoneX);
+      .y((d: any) => y(d.total_vaccinations))
+      .curve(d3.curveCardinal);
 
     svg.append("g")
       .attr("class", "x axis")
