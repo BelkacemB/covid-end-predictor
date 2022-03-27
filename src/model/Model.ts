@@ -4,7 +4,7 @@ const sumReducer = (a: number, b: number) => a + b;
 
 const world_population = populations
   .map((country) => country.population)
-  .reduce(sumReducer);
+  .reduce(sumReducer)
 
 export const dateCompare = (a: any, b: any) => {
   if (a.date > b.date) return -1;

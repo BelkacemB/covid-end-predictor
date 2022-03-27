@@ -4,7 +4,6 @@ import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Predictor from "./components/Predictor";
-import Ranking from "./components/Ranking";
 
 function App() {
   const [vaccinationData, setVaccinationData] = useState([]);
@@ -30,7 +29,6 @@ function App() {
         <div className="App">
           <body>
             <Predictor data={vaccinationData} />
-            <Ranking data={vaccinationData} />
           </body>
         </div>
         <Footer />

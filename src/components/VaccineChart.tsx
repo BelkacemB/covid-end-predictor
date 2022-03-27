@@ -1,17 +1,13 @@
-import {
-  CartesianGrid,
-  LineChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Line,
-  ReferenceLine,
-  Brush,
-} from "recharts";
 import { formatDateAxis, getFirstDaysOfMonths } from "../model/ChartUtils";
+import { axisBottom, axisLeft } from 'd3-axis';
+import { line } from 'd3-shape';
+import { select } from 'd3-selection';
+import { useRef } from "react";
 
 export default function VaccineChart(props: any) {
+  
   const data = props.data;
+  let chart = useRef(null);
   let dataWithProjection = [...data];
 
   // What's the typeof date object?
@@ -43,57 +39,27 @@ export default function VaccineChart(props: any) {
     return e;
   });
 
+  const margin = { top: 20, right: 20, bottom: 20, left: 80 },
+  fullWidth = 800,
+  fullHeight = 300,
+  width = fullWidth - margin.left - margin.right,
+  height = fullHeight - margin.top - margin.bottom;
+
   let threshold = (props.threshold * 100) / props.regionPopulation;
 
-  const labelTooltipFormatter = (value: any) => {
-    if (value instanceof Date) return value.toISOString().split("T")[0];
-  };
-
-  const valueTooltipFormatter = (value: number, name: string, props: any) => {
-    let formatted_name =
-      name === "total_vaccinations_per_population" ? "Total" : "Projected";
-    return [value.toFixed(2) + "%", formatted_name];
-  };
-
   return (
-    <LineChart data={dataWithProjection} width={650} height={400}>
-      <CartesianGrid stroke="#b3cdd1ff" />
-      <XAxis
-        dataKey="date"
-        tickFormatter={formatDateAxis}
-        ticks={getFirstDaysOfMonths(dataWithProjection)}
-      />
-      <YAxis
-        interval="preserveEnd"
-        domain={["auto", "auto"]}
-        allowDecimals={false}
-        tickFormatter={(e) => e.toString() + "%"}
-      />
-      <Line
-        type="monotone"
-        dataKey="total_vaccinations_per_population"
-        stroke="#6c464fff"
-        strokeWidth={3}
-        dot={false}
-      />
-      <Line
-        type="dashed"
-        dataKey="projected_vaccinations_per_population"
-        dot={false}
-        stroke="#6c464fff"
-        strokeDasharray="3 3"
-      />
-      <ReferenceLine
-        y={threshold}
-        stroke="orange"
-        strokeDasharray="3 3"
-        strokeWidth={3}
-      />
-      <Tooltip
-        labelFormatter={labelTooltipFormatter}
-        formatter={valueTooltipFormatter}
-      />
-      <Brush height={20} />
-    </LineChart>
+    <svg
+      ref={chart}
+      height="100%"
+      width="100%"
+      viewBox={`0 0 ${fullWidth} ${fullHeight}`}
+    >
+      <g transform={`translate(${margin.left},${margin.top})`}>
+        <g className="axis x" transform={`translate(0, ${height})`} />
+        <g className="axis y" />
+        <path className="line baseline" />
+        <path className="line actual" />
+      </g>
+    </svg>
   );
 }

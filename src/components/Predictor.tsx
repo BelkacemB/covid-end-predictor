@@ -13,26 +13,23 @@ import {
 function Predictor(props: any) {
   let { data } = props;
   const dataRef = useRef(data);
-  const [daysPeriod, setDaysPeriod] = useState(3);
-  const [threshold, setThreshold] = useState(0.7);
+  const [daysPeriod, setDaysPeriod] = useState(20);
+  const [threshold, setThreshold] = useState(0.9);
   const [endDate, setEndDate] = useState(new Date());
   const [vaccinationRegion, setVaccinationRegion] = useState("World");
   const [targetRegion, setTargetRegion] = useState("World");
-  const [vaccType, setVaccType] = useState("primo");
 
   useEffect(() => {
     dataRef.current = data.map((x: any) => {
       return {
         ...x,
         total_vaccinations:
-          vaccType === "full"
-            ? x.people_fully_vaccinated == null
+           x.people_fully_vaccinated == null
               ? NaN
               : x.people_fully_vaccinated
-            : x.total_vaccinations - x.people_fully_vaccinated,
       };
     });
-  }, [vaccType, data]);
+  }, [data]);
 
   useEffect(() => {
     let dailyVaccPerRegion = getNumberOfVaccinationsPerDayPerRegion(
@@ -43,14 +40,10 @@ function Predictor(props: any) {
     setEndDate(
       getEndDate(dailyVaccPerRegion, threshold, targetRegion, dataRef.current)
     );
-  }, [threshold, daysPeriod, vaccinationRegion, targetRegion, vaccType]);
+  }, [threshold, daysPeriod, vaccinationRegion, targetRegion]);
 
   const handleDaysChange = (event: any) => {
     setDaysPeriod(event.target.value);
-  };
-
-  const handleVaccTypeChange = (event: any) => {
-    setVaccType(event.target.value);
   };
 
   const handleThresholdChange = (event: any) => {
@@ -66,16 +59,7 @@ function Predictor(props: any) {
 
   return (
     <div id="predictor">
-      Based on the rate of &nbsp;
-      <Select
-        labelId="vaccTypeLabel"
-        id="vaccTypeLabelId"
-        value={vaccType}
-        onChange={handleVaccTypeChange}
-      >
-        <MenuItem value={"primo"}>first injections</MenuItem>
-        <MenuItem value={"full"}>full vaccinations</MenuItem>
-      </Select>
+      Based on the rate of vaccinations
       in the last &nbsp;
       <Select
         labelId="daysPeriodLabel"
@@ -106,9 +90,9 @@ function Predictor(props: any) {
         value={threshold}
         onChange={handleThresholdChange}
       >
-        <MenuItem value={0.6}>60%</MenuItem>
-        <MenuItem value={0.7}>70%</MenuItem>
-        <MenuItem value={0.8}>80%</MenuItem>
+        <MenuItem value={0.85}>85%</MenuItem>
+        <MenuItem value={0.9}>90%</MenuItem>
+        <MenuItem value={0.95}>95%</MenuItem>
       </Select>
       &nbsp; of the &nbsp; {targetRegion} &nbsp; population will be vaccinated
       in: <br />
@@ -121,7 +105,7 @@ function Predictor(props: any) {
           data={dataRef.current}
           endDate={endDate}
           threshold={threshold}
-          vaccType={vaccType}
+          vaccType={"full"}
         />
       ) : (
         <br />
